@@ -66,6 +66,17 @@ const EditTask = () => {
     })
   }
 
+  const deleteTask = () => {
+    axios.delete(`http://localhost:3000/api/v1/tasks/${currentTask.id}`, currentTask)
+    .then(() => {
+      console.log('success');
+      navigate("/tasks");
+    })
+    .catch(() => {
+      console.log('error');
+    })
+  }
+
   return (
     <>
       <h1>Edit Task</h1>
@@ -88,6 +99,9 @@ const EditTask = () => {
           <div>
             <button onClick={updateTask}>
               Edit
+            </button>
+            <button onClick={deleteTask}>
+              Delete
             </button>
 
           </div>

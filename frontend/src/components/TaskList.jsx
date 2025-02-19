@@ -18,6 +18,9 @@ const TaskList = () => {
 
   return (
     <div>
+      <Link to="/tasks/new">
+        Add New Task
+      </Link>
       {tasks.map(task => {
         return (
           <div key={task.id}>
