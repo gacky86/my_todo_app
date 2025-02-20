@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components'
 import 'react-toastify/dist/ReactToastify.css';
-// import AddTodo from './components/AddTodo'
+import AddTask from './components/AddTask'
 // import TodoList from './components/TodoList'
 // import EditTodo from './components/EditTodo'
 import TaskList from "./components/TaskList";
@@ -49,10 +49,11 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <TaskList/>
+      {/* <TaskList/> */}
       <Routes>
-        <Route path='/' element={<Navigate to="/tasks" />}  />
-        <Route path='/tasks' element={<TaskList/>}  />
+        <Route path='/' element={<Navigate to="/tasks" />}/>
+        <Route path='/tasks' element={<TaskList/>}/>
+        <Route path='/tasks/new' element={<AddTask/>}/>
         <Route path='/tasks/:id/edit' element={<EditTask />} />
       </Routes>
     </BrowserRouter>
