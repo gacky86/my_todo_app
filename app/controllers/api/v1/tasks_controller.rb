@@ -18,7 +18,6 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
-    raise
     task = Task.find(params[:id])
     if task.update(task_params)
       render json: task
