@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - .:/my_todo_app
     depends_on:
       - db
     stdin_open: true
