@@ -6,4 +6,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  # Associations
+  has_many :tasks
+
+  # Validations
+  validates :first_name, presence: true, length: { maximum: 50 }
+  validates :last_name, presence: true, length: { maximum: 50 }
+
+  # Methods
+  def full_name
+    [first_name, last_name].join(' ')
+  end
 end

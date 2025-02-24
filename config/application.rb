@@ -49,11 +49,11 @@ module Projects
     config.autoload_lib(ignore: %w(assets tasks))
     config.generators do |g|
       g.test_framework :rspec,
-        fixtures: false,
+        # fixtures: false, factory_botを使う場合は最初から消してていい
         view_specs: false,
         helper_specs: false,
         routing_specs: false
-      g.factory_bot false
+      # g.factory_bot false factory_botを使う場合は最初から消してていい
     end
   end
 end
