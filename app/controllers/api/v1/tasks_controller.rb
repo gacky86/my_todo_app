@@ -1,5 +1,5 @@
 class Api::V1::TasksController < ApplicationController
-
+  # skip_before_action :authenticate_user!
   def index
     render json: Task.order(updated_at: :desc)
   end

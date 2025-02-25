@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :tasks
 
   # Validations
-  validates :first_name, presence: true, length: { maximum: 50 }
-  validates :last_name, presence: true, length: { maximum: 50 }
+  # validates :first_name, presence: true, length: { maximum: 50 }
+  # validates :last_name, presence: true, length: { maximum: 50 }
 
   # Methods
   def full_name
