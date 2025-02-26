@@ -1,38 +1,68 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { AiFillEdit } from 'react-icons/ai'
+import { useEffect, useState } from 'react';
+import { getTaskList, deleteTask } from '../lib/api/task';
+import { Link, useNavigate } from "react-router-dom";
 
 const TaskList = () => {
-  const [ tasks, setTasks ] = useState([]);
+  const [dataList, setDataList] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/v1/tasks').then((res) => {
-      setTasks(res.data);
-      // axiosで拾ったデータはstateとして保存して、stateの中身を表示する
-      // setTasksでstateを更新するとこのコンポーネントの再レンダリングが実行されるので
-      // useEffectの部分が無限ループに陥る
-      // それを防ぐためにuseEffectの第二引数に[]を渡しておく
-    });
+    handleGetList();
   }, []);
 
-  return (
-    <div>
-      <Link to="/tasks/new">
-        Add New Task
-      </Link>
-      {tasks.map(task => {
-        return (
-          <div key={task.id}>
-            <h2>{task.title}</h2>
-            <Link to={"/tasks/"+ task.id +"/edit"}>
-              <AiFillEdit />
-            </Link>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
+  const handleGetList = () => {
+    getTaskList()
+    .then((res) => {
+      console.log(res.data);
+      setDataList(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  }
 
+  const handleDelete = (id) => {
+    deleteTask(id)
+    .then(() => {
+      console.log("successfully deleted");
+      handleGetList();
+    })
+    .catch((e) => {
+      console.log(e);
+
+    })
+  }
+
+  return (
+    <>
+      <h1>Home</h1>
+      <button onClick={() => navigate('/new')}>新規作成</button>
+      <table>
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>memo</th>
+            <th colSpan='1'></th>
+            <th colSpan='1'></th>
+            <th colSpan='1'></th>
+          </tr>
+        </thead>
+        {dataList.map(data => {
+          return (
+            <tbody key={data.id}>
+              <tr>
+                <td>{data.title}</td>
+                <td>{data.memo}</td>
+                <td><Link to={`/edit/${data.id}`}>更新</Link></td>
+                <td><Link to={`/task/${data.id}`}>詳細へ</Link></td>
+                <td><button onClick={() => handleDelete(data.id)}>削除</button></td>
+              </tr>
+            </tbody>
+          )
+        })}
+      </table>
+    </>
+  );
+};
 export default TaskList;

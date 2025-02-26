@@ -1,56 +1,53 @@
-import axios from "axios";
 import { useState } from "react"
+import { createTask } from "../lib/api/task";
 import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
-  // define initial state
   const initialNewTask = {
     id: null,
     title: '',
     status: false,
     deadline: '',
-    memo: ''
+    memo: '',
+    user_id: 1
   }
 
-  // define state for input value
-  const [ newTask, setNewTask ] = useState(initialNewTask);
+  const [newTask, setNewTask] = useState(initialNewTask);
 
-  // define navigate here
   const navigate = useNavigate();
 
-  // input change function
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTask({ ...newTask, [name]: value });
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    console.log(e.target);
+    setNewTask({...newTask, [name]: value});
   }
-  // addTask function(axios)
-  const saveTask = () => {
-    axios.post('http://localhost:3000/api/v1/tasks/', newTask)
-    .then((res) => {
-      console.log(res);
+
+  const handleSubmit = () => {
+    createTask(newTask)
+    .then(() => {
+      console.log("success");
       navigate('/');
     })
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch(() => {
+      console.log("error");
+    })
   }
 
   return (
     <div>
-      <h1>Add New Task</h1>
-      {/* input, call setState onChange */}
-      <label htmlFor="title">Title</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={newTask.title}
-        onChange={handleInputChange}
-      />
-      {/* button to submit */}
-      <button onClick={saveTask}>
-        Submit
-      </button>
+      {/* input */}
+      <form action="">
+        <div>
+          <label htmlFor="title">Title</label>
+          <input type="text" id="title" name="title" value={newTask.title} onChange={(e) => handleChange(e)}/>
+        </div>
+        <div>
+          <label htmlFor="memo">Memo</label>
+          <input type="text" id="memo" name="memo" value={newTask.memo} onChange={(e) => handleChange(e)}/>
+        </div>
+      </form>
+      {/* submit button */}
+      <button onClick={() => handleSubmit()}>作成</button>
     </div>
   )
 }
