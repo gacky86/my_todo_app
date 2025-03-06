@@ -1,6 +1,40 @@
 // src/components/users/SignForm.jsx
 import { Link } from 'react-router-dom';
 
+
+// style
+import styled from 'styled-components'
+
+const FormContainer = styled.div`
+  margin: 100px auto;
+  width: 400px;
+  border: 1px solid black;
+  text-align: center;
+  border: 1px solid #7aa7c7;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #e1ecf4;
+  input {
+    margin: 3px;
+    width: 60%;
+    /* display: block; */
+    background-color: #e5e8e9;
+    padding: 3px;
+    border: 1px solid #7aa7c7;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #5686c9;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+`
+const FormHeader = styled.h2`
+  font-weight: 200;
+  color: #5c89c8;
+  margin: 10px 20px;
+  border-bottom: 0.5px solid #7aa7c7;
+  `
+
 const SignForm = (props) => {
   const {
     email,
@@ -16,7 +50,10 @@ const SignForm = (props) => {
   } = props;
 
   return (
-    <>
+    <FormContainer>
+      {signType === 'signUp' ?
+        (<FormHeader>Sign up</FormHeader>) :
+        (<FormHeader>Sign In</FormHeader>)}
       <form action="">
         {/* Form for name (only for signUp) */}
         {signType === 'signUp' && (
@@ -48,7 +85,7 @@ const SignForm = (props) => {
 
       </form>
       {/* button to submit */}
-      <button onClick={() => handleSubmit()}>Submit</button>
+      <button onClick={() => handleSubmit()}>Sign In</button>
 
       {/* link to signup (only for signin) */}
       {signType === 'signIn' && (
@@ -58,7 +95,7 @@ const SignForm = (props) => {
         </div>
       )}
 
-    </>
+    </FormContainer>
   );
 };
 export default SignForm;

@@ -2,22 +2,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { createContext, useEffect, useState } from 'react';
 
 // Components
-import TaskList from "./components/TaskList";
 import TaskDetail from "./components/TaskDetail";
-import AddTask from "./components/AddTask";
 import EditTask from "./components/EditTask";
 import Header from "./components/common/Header";
 import SignUp from "./components/users/SignUp";
 import SignIn from "./components/users/SignIn";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
+import TaskLayout from "./components/layout/TaskLayout";
 
-// import MainContainer from "./components/layout/MainContainer";
+// style
+import './App.css'
 
 // Functions
 import { getCurrentUser } from "./lib/api/auth";
-
-// style
 
 // 認証情報をグローバルに管理するためにcreateContextで定義
 export const AuthContext = createContext();
@@ -67,17 +65,17 @@ const App = () => {
       <AuthContext.Provider
         value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
         <Router>
-          <Header />
+          <Header/>
           <Routes>
             <Route element={<PublicLayout/>}>
               <Route path='/signup' element={<SignUp/>}/>
               <Route path='/signin' element={<SignIn/>}/>
             </Route>
             <Route element={<PrivateLayout/>}>
-              <Route path='/' element={<TaskList/>}/>
-              <Route path='/task/:id' element={<TaskDetail/>}/>
-              <Route path='/new' element={<AddTask/>}/>
-              <Route path='/edit/:id' element={<EditTask/>}/>
+              <Route path='/' element={<TaskLayout/>}>
+                <Route path='/task/:id' element={<TaskDetail/>}/>
+                <Route path='/edit/:id' element={<EditTask/>}/>
+              </Route>
             </Route>
           </Routes>
         </Router>
