@@ -1,71 +1,93 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { updateTask, getTaskDetail } from '../lib/api/task';
+import { useContext } from 'react';
+import { TaskContext } from './layout/TaskLayout';
+
+// style
+import styled from 'styled-components'
+
+// styled-components
+const TaskEditContainer = styled.div`
+  margin: 10px 20px;
+  padding: 0 5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #5c89c8;
+  height: 200px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 16px;
+
+  h4 {
+    font-weight: 400;
+  }
+  input {
+    margin: 3px;
+    width: 100%;
+    display: block;
+    background-color: #e5e8e9;
+    padding: 3px;
+    border: 1px solid #7aa7c7;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #5686c9;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+`
+
+const TaskTitle = styled.div`
+  `
+const TaskDeadline = styled.div`
+
+  `
+const TaskMemo = styled.div`
+  grid-row: span 2 / span 2;
+  input {
+    height: 75%;
+  }
+`
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  font-size: 16px;
+  padding: 8px 0px;
+  button {
+    background-color: #ffb703;
+    color: #5182c6;
+    font-weight: 100;
+    font-size: 16px;
+    border: 0.5px solid #7aa7c7;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+  }
+`
 
 const Edit = () => {
-  const initialTask = {
-    title: '',
-    memo: '',
-  }
-  // apiで取得したデータを管理する為のstate
-  const [taskValue, setTaskValue] = useState({initialTask});
-
-  // 一覧からreact-router-domを使ってidを取得
-  const params = useParams();
-
-  const navigate = useNavigate();
-
-  // 画面が描画された時、paramsが更新された時に関数を実行
-  useEffect(() => {
-    handleGetData(params)
-  }, [params])
-
-  // idをapiクライアントに渡し、/api/v1/posts/:idのエンドポイントからデータ取得
-  const handleGetData = () => {
-    getTaskDetail(params.id)
-    .then((res) => {
-      setTaskValue({
-        title: res.data.title,
-        memo: res.data.memo
-      });
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  }
-
-  // テキストフィールドの変更を検知し値を書き換えstateで管理
-  const handleChange = (e) => {
-    setTaskValue({...taskValue, [e.target.name]: e.target.value})
-  }
-
-  // 更新ボタン押下後、idとparameterをapiクライアントに渡しリクエストを投げる
-  const handleSubmit = () => {
-    updateTask(params.id, taskValue)
-    .then(() => {
-      console.log("success");
-      navigate('/');
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-  }
+  const {taskDetail, handleUpdateTask, handleChange} = useContext(TaskContext);
 
   return(
     <>
-      <h1>Edit</h1>
+
       <form action="">
-        <div>
-          <label htmlFor="title">Title</label>
-          <input type="text" id="title" name="title" value={taskValue.title} onChange={(e) => handleChange(e)}/>
-        </div>
-        <div>
-          <label htmlFor="memo">Memo</label>
-          <input type="text" id="memo" name="memo" value={taskValue.memo} onChange={(e) => handleChange(e)}/>
-        </div>
+        <TaskEditContainer>
+          <TaskTitle>
+            <label htmlFor="title">Title :</label>
+            <input type="text" id="title" name="title" value={taskDetail.title} onChange={(e) => handleChange(e)}/>
+          </TaskTitle>
+          <TaskDeadline>
+            <label htmlFor="deadline">Deadline : </label>
+            <input type="text" id="deadline" name="deadline" value={taskDetail.deadline} onChange={(e) => handleChange(e)}/>
+          </TaskDeadline>
+          <TaskMemo>
+            <label htmlFor="memo">Memo : </label>
+            <input type="text" id="memo" name="memo" value={taskDetail.memo} onChange={(e) => handleChange(e)}/>
+          </TaskMemo>
+        </TaskEditContainer>
       </form>
       {/* submit button */}
-      <button onClick={() => handleSubmit()}>更新</button>
+      <Buttons>
+        <button onClick={() => handleUpdateTask()}>Update</button>
+      </Buttons>
     </>
   )
 }
