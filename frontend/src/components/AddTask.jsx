@@ -95,11 +95,34 @@ const AddTask = () => {
   }
 
   const [newTask, setNewTask] = useState(initialNewTask);
+  const [titleAlert, setTitleAlert] = useState(false);
+  const [memoAlert, setMemoAlert] = useState(false);
+
 
   const handleChange = (e) => {
     const {name, value} = e.target;
-    console.log(e.target);
-    setNewTask({...newTask, [name]: value});
+    var strLimit = 0;
+    if (name === 'title') {
+      // titleの文字数は最大60文字
+      strLimit = 60;
+      if (value.length <= strLimit) {
+        setTitleAlert(false)
+        setNewTask({...newTask, [name]: value});
+      } else {
+        // 画面上にエラーを表示する
+        setTitleAlert(true)
+      }
+    } else if (name === 'memo') {
+      // memoの文字数は最大255文字
+      strLimit = 255;
+      if (value.length <= strLimit) {
+        setMemoAlert(false)
+        setNewTask({...newTask, [name]: value});
+      } else {
+        // 画面上にエラーを表示する
+        setMemoAlert(true)
+      }
+    }
   }
 
   const handleDateChange = (date) => {
@@ -132,6 +155,7 @@ const AddTask = () => {
           <div>
             <FormLabel htmlFor="title">Title</FormLabel>
             <input type="text" id="title" name="title" value={newTask.title} onChange={(e) => handleChange(e)}/>
+            {titleAlert ? (<p>Title should be shorter than 60 letters.</p>) : (<p></p>)}
           </div>
           <DeadlineForm>
             <FormLabel htmlFor="deadline">Deadline</FormLabel>
@@ -141,6 +165,7 @@ const AddTask = () => {
           <MemoForm>
             <FormLabel htmlFor="memo">Memo</FormLabel>
             <input type="text" id="memo" name="memo" value={newTask.memo} onChange={(e) => handleChange(e)}/>
+            {memoAlert ? (<p>Memo should be shorter than 255 letters.</p>) : (<p></p>)}
           </MemoForm>
         </AddTaskGrid>
       </form>
