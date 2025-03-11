@@ -1,8 +1,6 @@
 // task.js
+// 役割：HTTPリクエストを定義すること
 import client from './client';
-
-// taskモデルのCRUDに使うHTTPリクエストを定義
-
 
 // 一覧
 export const getTaskList = () => {

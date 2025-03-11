@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TaskContext } from './layout/TaskLayout';
+import { TaskContext } from '../layout/TaskLayout';
 
 // style
 import styled from 'styled-components'

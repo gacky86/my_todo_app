@@ -2,14 +2,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { createContext, useEffect, useState } from 'react';
 
 // Components
-import TaskDetail from "./components/TaskDetail";
-import EditTask from "./components/EditTask";
-import Header from "./components/common/Header";
+import Header from "./components/common/Navbar";
 import SignUp from "./components/users/SignUp";
 import SignIn from "./components/users/SignIn";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
-import TaskLayout from "./components/layout/TaskLayout";
+import TaskLayoutSub from "./components/layout/TaskLayout";
+import TaskDetailContent from "./components/task/TaskDetailContent";
+import TaskDetailEdit from "./components/task/TaskDetailEdit";
+
 
 // style
 import './App.css'
@@ -72,9 +73,10 @@ const App = () => {
               <Route path='/signin' element={<SignIn/>}/>
             </Route>
             <Route element={<PrivateLayout/>}>
-              <Route path='/' element={<TaskLayout/>}>
-                <Route path='/task/:id' element={<TaskDetail/>}/>
-                <Route path='/edit/:id' element={<EditTask/>}/>
+              <Route path='/' element={<TaskLayoutSub/>}>
+                {/* 下記のコンポーネントを表示するにはTaskLayoutSubがレンダリングする中に<Outlet/>が必要 */}
+                <Route path='/task/:id' element={<TaskDetailContent/>}/>
+                <Route path='/edit/:id' element={<TaskDetailEdit/>}/>
               </Route>
             </Route>
           </Routes>
