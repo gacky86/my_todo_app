@@ -38,19 +38,19 @@ jobs:
           done
 
       - name: Create DB
-        run: docker compose exec -T app rails db:create
+        run: docker compose exec -T web rails db:create
 
       - name: Run migrations
-        run: docker compose exec -T app rails db:migrate
+        run: docker compose exec -T web rails db:migrate
 
       - name: Load seed data
-        run: docker compose exec -T app rails db:seed
+        run: docker compose exec -T web rails db:seed
 
       - name: Run Rubocop
-        run: docker compose exec -T app bundle exec rubocop
+        run: docker compose exec -T web bundle exec rubocop
 
       - name: Run RSpec
-        run: docker compose exec -T app bin/rspec
+        run: docker compose exec -T web bin/rspec
 
       # - name: Upload coverage reports to Codecov
       #   uses: codecov/codecov-action@v3
