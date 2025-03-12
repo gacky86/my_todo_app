@@ -28,8 +28,8 @@ jobs:
 
       - name: Build and run Docker containers
         run: |
-          docker-compose build --no-cache
-          docker-compose up -d
+          docker compose build --no-cache
+          docker compose up -d
 
       - name: Wait for DB connection
         run: |
