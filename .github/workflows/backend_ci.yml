@@ -50,7 +50,7 @@ jobs:
       #   run: docker compose exec -T web bundle exec rubocop
 
       - name: Run RSpec
-        run: docker compose exec -T web bin/rspec
+        run: docker compose exec -T web bundle exec rspec
 
       # - name: Upload coverage reports to Codecov
       #   uses: codecov/codecov-action@v3
